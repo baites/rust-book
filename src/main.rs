@@ -1,16 +1,22 @@
+use clap::Parser;
+
+
 mod hello_world;
 mod guessing_game;
 
-use std::env;
+
+/// CLI interface.
+#[derive(Parser)]
+struct Cli {
+    #[clap(default_value="hello_world")]
+    example: String,
+}
+
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
+    let args: Cli = Cli::parse();
 
-    if args.len() == 1 {
-        return hello_world::run();
-    }
-
-    match args[1].as_str() {
+    match args.example.as_ref() {
         "hello_world" => hello_world::run(),
         "guessing_game" => guessing_game::run(),
         _ => panic!("Unknown command"),
